@@ -1,0 +1,74 @@
+
+
+# Build dataapps
+d:
+cd D:\Ashok\Work\IDS\git\ran-slice-tmf-ids-app-config\dataapps
+cd ibusiness-slicing-request-generator
+docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
+docker push ashokkumarta/ibusiness-slicing-request-generator:latest
+cd ..\personX-slicing-request-generator
+docker image rm ashokkumarta/personX-slicing-request-generator:latest
+docker build -t ashokkumarta/personX-slicing-request-generator:latest .
+docker push ashokkumarta/personX-slicing-request-generator:latest
+cd ..\zbusiness-slicing-request-generator
+docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
+docker push ashokkumarta/zbusiness-slicing-request-generator:latest
+cd ..\isp-slicing-request-processor
+docker image rm ashokkumarta/isp-slicing-request-processor:latest
+docker build -t ashokkumarta/isp-slicing-request-processor:latest .
+docker push ashokkumarta/isp-slicing-request-processor:latest
+cd ..
+
+#End build dataapps
+
+#Certs
+
+d:
+cd D:\Ashok\Work\IDS\git\certs\tmf
+copy ..\etc-locked\truststore.p12 truststore.p12
+
+copy ..\etc-locked\consumer-keystore.p12 mno-1.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-1.p12 -storepass password -ext "SAN=DNS:mno-1"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-1.cer -keystore mno-1.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-1 -storetype PKCS12 -file mno-1.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 mno-2.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-2.p12 -storepass password -ext "SAN=DNS:mno-2"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-2.cer -keystore mno-2.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-2 -storetype PKCS12 -file mno-2.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 mno-3.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-3.p12 -storepass password -ext "SAN=DNS:mno-3"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-3.cer -keystore mno-3.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-3 -storetype PKCS12 -file mno-3.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 csp.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore csp.p12 -storepass password -ext "SAN=DNS:csp"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file csp.cer -keystore csp.p12
+keytool -import -noprompt -v -trustcacerts -alias csp -storetype PKCS12 -file csp.cer -keystore truststore.p12 -keypass password -storepass password
+
+
+copy ..\etc-locked\consumer-keystore.p12 ran-regulator.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ran-regulator.p12 -storepass password -ext "SAN=DNS:ran-regulator"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file ran-regulator.cer -keystore ran-regulator.p12
+keytool -import -noprompt -v -trustcacerts -alias ran-regulator -storetype PKCS12 -file ran-regulator.cer -keystore truststore.p12 -keypass password -storepass password
+
+keytool -list -storetype PKCS12 -v -keystore truststore.p12 -storepass password 
+
+del /F /Q etc\* 
+
+move *.p12 etc\.
+
+#end certs
+
+
+
+docker-compose -f docker-compose-server.yaml up
+docker-compose -f docker-compose-client.yaml up
+
+ashokkumarta/recommendations-processor-app@sha256:a698c89cb5ea58ed804a928103a6e465bb6adc67941be740c4369a070c15a29b
+
+jmalloc/echo-server@sha256:c461e7e54d947a8777413aaf9c624b4ad1f1bac5d8272475da859ae82c1abd7d
+
