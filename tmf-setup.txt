@@ -8,9 +8,9 @@ docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
 docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
 docker push ashokkumarta/ibusiness-slicing-request-generator:latest
 cd ..\personX-slicing-request-generator
-docker image rm ashokkumarta/personX-slicing-request-generator:latest
-docker build -t ashokkumarta/personX-slicing-request-generator:latest .
-docker push ashokkumarta/personX-slicing-request-generator:latest
+docker image rm ashokkumarta/personx-slicing-request-generator:latest
+docker build -t ashokkumarta/personx-slicing-request-generator:latest .
+docker push ashokkumarta/personx-slicing-request-generator:latest
 cd ..\zbusiness-slicing-request-generator
 docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
 docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
