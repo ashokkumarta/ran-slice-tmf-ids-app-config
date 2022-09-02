@@ -1,7 +1,7 @@
 # tmf-ids-dataapps - Ran Slicing Usecase
 
 ## Build the apps
-'''
+```
 cd csp-resource-management
 sudo docker image rm ashokkumarta/csp-resource-management:latest
 sudo docker build -t ashokkumarta/csp-resource-management:latest .
@@ -27,6 +27,5 @@ sudo docker image rm ashokkumarta/subscriber-1-allocation-confirmation:latest
 sudo docker build -t ashokkumarta/subscriber-1-allocation-confirmation:latest .
 sudo docker push ashokkumarta/subscriber-1-allocation-confirmation:latest
 cd ..
-'''
-
+```
 
